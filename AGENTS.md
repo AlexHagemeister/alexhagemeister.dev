@@ -14,3 +14,4 @@
 - Site design system uses three fonts: Playfair Display (page h1s), JetBrains Mono (structural/navigational elements), Inter (body text).
 - Two-accent color system: gold `--accent: #c4a35a` for editorial warmth, cyan `--accent-cyan: #88c0d0` for interactive/structural elements.
 - Homepage uses terminal-inspired motifs: `//` section prefixes, `>` project title prefixes, blinking cursor, window chrome dots on cards, scroll reveal animations.
+- Navigation is a fixed left sidebar (`SidebarNav.astro`, 240px) on desktop (>= 860px) with brand block, nav links, and external links; mobile (< 860px) uses a bottom tab bar (`BottomTabBar.astro`) with icon + label tabs. Layout offset via `.main-content` margin-left.

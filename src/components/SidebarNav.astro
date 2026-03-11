@@ -24,9 +24,13 @@ const isActive = (href: string): boolean => {
 ---
 
 <aside class="sidebar" aria-label="Primary navigation">
-  <a href="/" class="brand" aria-label="Alex Hagemeister — home">
-    Alex Hagemeister
-  </a>
+  <div class="brand-block">
+    <a href="/" class="brand" aria-label="Alex Hagemeister — home">
+      Alex Hagemeister
+    </a>
+    <span class="brand-subtitle">Software Engineer</span>
+    <span class="brand-subtitle">San Francisco</span>
+  </div>
 
   <nav class="nav-links">
     {
@@ -79,6 +83,12 @@ const isActive = (href: string): boolean => {
     z-index: 100;
   }
 
+  .brand-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+  }
+
   .brand {
     font-family: "Playfair Display", serif;
     font-size: 1.1rem;
@@ -86,11 +96,18 @@ const isActive = (href: string): boolean => {
     text-decoration: none;
     color: var(--fg);
     white-space: nowrap;
-    margin-bottom: 40px;
+    margin-bottom: 6px;
   }
 
   .brand:hover {
     color: var(--accent);
+  }
+
+  .brand-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    line-height: 1.6;
   }
 
   .nav-links {
