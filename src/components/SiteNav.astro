@@ -4,7 +4,12 @@ interface NavItem {
   label: string;
 }
 
-const { currentPath = "/" } = Astro.props as { currentPath?: string };
+interface Props {
+  currentPath?: string;
+  showBrand?: boolean;
+}
+
+const { currentPath = "/", showBrand = true } = Astro.props;
 
 const navItems: NavItem[] = [
   { href: "/projects/", label: "Projects" },
@@ -18,11 +23,13 @@ const isActive = (href: string): boolean => {
 };
 ---
 
-<nav class="site-nav" aria-label="Primary">
+<nav class={`site-nav ${!showBrand ? "brand-hidden" : ""}`} aria-label="Primary">
   <div class="container nav-inner">
-    <a href="/" class="brand" aria-label="Alex Hagemeister — home"
-      >Alex Hagemeister</a
-    >
+    {showBrand && (
+      <a href="/" class="brand" aria-label="Alex Hagemeister — home"
+        >Alex Hagemeister</a
+      >
+    )}
     <div class="nav-links">
       {
         navItems.map((item) => (
@@ -48,9 +55,13 @@ const isActive = (href: string): boolean => {
     padding: 28px 24px;
   }
 
+  .brand-hidden .nav-inner {
+    justify-content: flex-end;
+  }
+
   .brand {
     font-family: "Playfair Display", serif;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 400;
     text-decoration: none;
     color: var(--fg);
@@ -63,26 +74,30 @@ const isActive = (href: string): boolean => {
 
   .nav-links {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 32px;
   }
 
-  .site-nav a {
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     text-decoration: none;
-    padding: 8px 16px;
-    color: var(--fg);
-    transition: color 150ms ease;
+    padding: 4px 0;
+    color: var(--fg-muted);
+    border-bottom: 2px solid transparent;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
   }
 
-  .site-nav a:hover {
-    color: var(--accent);
+  .nav-links a:hover {
+    color: var(--accent-cyan);
+    border-bottom-color: var(--accent-cyan);
   }
 
-  .site-nav a.active {
-    color: var(--accent);
-    font-weight: 500;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1px;
+  .nav-links a.active {
+    color: var(--accent-cyan);
+    border-bottom-color: var(--accent-cyan);
   }
 
   @media (max-width: 640px) {
@@ -93,7 +108,7 @@ const isActive = (href: string): boolean => {
 
     .nav-links {
       flex-wrap: wrap;
-      gap: 2px;
+      gap: 20px;
     }
   }
 </style>

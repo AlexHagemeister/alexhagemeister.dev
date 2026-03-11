@@ -64,8 +64,9 @@ const posts = (await getCollection("blog")).sort(
   }
 
   h2 {
+    font-family: var(--font-mono);
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
   }
 
@@ -74,13 +75,14 @@ const posts = (await getCollection("blog")).sort(
   }
 
   h2 a:hover {
-    color: var(--accent);
+    color: var(--accent-cyan);
   }
 
   time {
+    font-family: var(--font-mono);
     display: block;
     color: var(--fg-muted);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     margin-top: 6px;
   }
 

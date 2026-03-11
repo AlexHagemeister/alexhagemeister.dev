@@ -52,8 +52,9 @@ const { title, date, description } = Astro.props;
   }
 
   time {
+    font-family: var(--font-mono);
     color: var(--fg-muted);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   .content {
@@ -68,19 +69,22 @@ const { title, date, description } = Astro.props;
 
   .content :global(h2) {
     color: var(--fg);
-    font-family: "Playfair Display", serif;
-    font-weight: 400;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 1rem;
     margin: 36px 0 16px;
   }
 
   .content :global(a) {
     color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
   }
 
   .content :global(a:hover) {
-    border-bottom-color: var(--accent);
+    text-decoration-color: var(--accent);
   }
 
   .content :global(strong) {
@@ -90,13 +94,13 @@ const { title, date, description } = Astro.props;
   .content :global(blockquote) {
     margin: 0 0 20px;
     padding: 4px 0 4px 20px;
-    border-left: 2px solid var(--accent);
+    border-left: 2px solid var(--accent-cyan);
     color: var(--fg-muted);
     font-style: italic;
   }
 
   .content :global(code) {
-    font-family: "Menlo", "Monaco", monospace;
+    font-family: var(--font-mono);
     font-size: 0.875em;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -139,6 +143,8 @@ const { title, date, description } = Astro.props;
   }
 
   .back-link {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     display: inline-block;
     margin-top: 32px;
     text-decoration: none;
@@ -146,6 +152,6 @@ const { title, date, description } = Astro.props;
   }
 
   .back-link:hover {
-    color: var(--accent);
+    color: var(--accent-cyan);
   }
 </style>

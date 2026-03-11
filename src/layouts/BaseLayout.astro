@@ -9,6 +9,7 @@ interface Props {
   currentPath?: string;
   showNav?: boolean;
   showFooter?: boolean;
+  showBrand?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   currentPath = "/",
   showNav = true,
   showFooter = true,
+  showBrand = true,
 } = Astro.props;
 ---
 
@@ -32,14 +34,28 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
   </head>
   <body>
-    {showNav && <SiteNav currentPath={currentPath} />}
+    {showNav && <SiteNav currentPath={currentPath} showBrand={showBrand} />}
     <slot />
     {showFooter && <SiteFooter />}
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>

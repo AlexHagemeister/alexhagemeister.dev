@@ -6,6 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title="Alex Hagemeister — Portfolio"
   description="Portfolio of Alex Hagemeister. AI/ML infrastructure, RAG systems, and production-focused software."
   currentPath="/"
+  showBrand={false}
 >
   <main class="container">
     <header class="hero">
@@ -16,32 +17,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <h1>Alex Hagemeister</h1>
         <p class="location">San Francisco</p>
         <p class="tagline">
-          I build things. Most of them interesting, some of them useful.
+          I build things. Most of them interesting, some of them useful.<span class="cursor">_</span>
         </p>
+        <nav aria-label="External links" class="hero-links">
+          <a href="mailto:hagemeister.alex@gmail.com">Email</a>
+          <a
+            href="https://github.com/AlexHagemeister"
+            target="_blank"
+            rel="noreferrer">GitHub</a
+          >
+          <a
+            href="https://www.linkedin.com/in/alexhagemeister/"
+            target="_blank"
+            rel="noreferrer">LinkedIn</a
+          >
+          <a
+            href="https://arxiv.org/abs/2410.02680"
+            target="_blank"
+            rel="noreferrer">Research</a
+          >
+        </nav>
       </div>
     </header>
 
-    <nav aria-label="External links" class="links">
-      <a href="mailto:hagemeister.alex@gmail.com">Email</a>
-      <a
-        href="https://github.com/AlexHagemeister"
-        target="_blank"
-        rel="noreferrer">GitHub</a
-      >
-      <a
-        href="https://www.linkedin.com/in/alexhagemeister/"
-        target="_blank"
-        rel="noreferrer">LinkedIn</a
-      >
-      <a
-        href="https://arxiv.org/abs/2410.02680"
-        target="_blank"
-        rel="noreferrer">Research</a
-      >
-    </nav>
-
-    <section id="about">
-      <h2>About</h2>
+    <section id="about" class="reveal">
+      <h2><span class="prefix">//</span> About</h2>
       <p>
         <strong>B.S. EECS, UC Berkeley, graduating May 2026.</strong> Regents' and
         Chancellor's Scholarship recipient.
@@ -68,9 +68,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </section>
 
     <section id="projects">
-      <h2>Selected Work</h2>
-      <div class="project">
-        <h3>Highly Adaptive Ridge</h3>
+      <h2><span class="prefix">//</span> Selected Work</h2>
+      <div class="project reveal" style="transition-delay: 0ms">
+        <div class="window-chrome"><span /><span /><span /></div>
+        <h3><span class="prefix">&gt;</span> Highly Adaptive Ridge</h3>
         <p>
           Co-authored ML research paper as sole undergraduate in UC Berkeley's
           Center for Targeted Machine Learning. <a
@@ -80,16 +81,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           >
         </p>
       </div>
-      <div class="project">
-        <h3>SPLAT — AI Course Tutors, UC Berkeley</h3>
+      <div class="project reveal" style="transition-delay: 80ms">
+        <div class="window-chrome"><span /><span /><span /></div>
+        <h3><span class="prefix">&gt;</span> SPLAT — AI Course Tutors, UC Berkeley</h3>
         <p>
           Lead developer on Berkeley-funded EdTech platform for course-specific
           AI tutors. Built the ingestion, retrieval, generation, and
           student-facing application layers.
         </p>
       </div>
-      <div class="project">
-        <h3>IT Service Desk Intern — Stanford Research Institute</h3>
+      <div class="project reveal" style="transition-delay: 160ms">
+        <div class="window-chrome"><span /><span /><span /></div>
+        <h3><span class="prefix">&gt;</span> IT Service Desk Intern — Stanford Research Institute</h3>
         <p>
           Embedded technical support for SRI researchers, handling 300+ service
           requests in three months and unblocking teams when infrastructure
@@ -99,17 +102,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </section>
 
     <section id="currently-building">
-      <h2>Currently Building</h2>
-      <div class="project">
-        <h3>MCP Servers — Workflow Automation</h3>
+      <h2><span class="prefix">//</span> Currently Building</h2>
+      <div class="project reveal" style="transition-delay: 0ms">
+        <div class="window-chrome"><span /><span /><span /></div>
+        <h3><span class="prefix">&gt;</span> MCP Servers — Workflow Automation</h3>
         <p>
           Production Model Context Protocol servers for automating knowledge
           work, including Gmail API integration, task workflows, and document
           processing.
         </p>
       </div>
-      <div class="project">
-        <h3>Cursor Memory System — Developer Tooling</h3>
+      <div class="project reveal" style="transition-delay: 80ms">
+        <div class="window-chrome"><span /><span /><span /></div>
+        <h3><span class="prefix">&gt;</span> Cursor Memory System — Developer Tooling</h3>
         <p>
           A persistent memory architecture for AI-assisted development workflows
           focused on better context retrieval and long-term project awareness.
@@ -118,25 +123,30 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </section>
 
     <section id="background">
-      <h2>Background</h2>
+      <h2><span class="prefix">//</span> Background</h2>
       <ul class="background-list">
-        <li>
+        <li class="reveal" style="transition-delay: 0ms">
+          <span class="line-num">01</span>
           <strong>Burning Man installations.</strong> Led teams building large-scale
           art that burned.
         </li>
-        <li>
+        <li class="reveal" style="transition-delay: 60ms">
+          <span class="line-num">02</span>
           <strong>Off-grid infrastructure.</strong> Designed and managed complete
           field power/water systems.
         </li>
-        <li>
+        <li class="reveal" style="transition-delay: 120ms">
+          <span class="line-num">03</span>
           <strong>National touring band.</strong> Self-booked and self-managed touring
           logistics.
         </li>
-        <li>
+        <li class="reveal" style="transition-delay: 180ms">
+          <span class="line-num">04</span>
           <strong>Sushi chef.</strong> Self-taught, hired directly as chef, rapidly
           reached top certification tier.
         </li>
-        <li>
+        <li class="reveal" style="transition-delay: 240ms">
+          <span class="line-num">05</span>
           <strong>Khan Academy math sprint.</strong> Seven years of curriculum in
           six months.
         </li>
@@ -146,6 +156,23 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <style>
+  /* ── Terminal prefix ── */
+  .prefix {
+    color: var(--accent-cyan);
+    margin-right: 8px;
+  }
+
+  /* ── Blinking cursor ── */
+  .cursor {
+    color: var(--accent-cyan);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* ── Hero ── */
   .hero {
     padding: 64px 0 42px;
     display: flex;
@@ -168,6 +195,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .location {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     color: var(--fg-muted);
     margin: 0 0 18px;
   }
@@ -177,23 +206,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     font-size: 1.15rem;
   }
 
-  .links {
+  .hero-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 18px;
-    padding: 24px 0 40px;
+    gap: 16px;
+    margin-top: 18px;
   }
 
-  .links a {
+  .hero-links a {
+    font-family: var(--font-mono);
     text-decoration: none;
-    border-bottom: 1px solid var(--fg-muted);
-    padding-bottom: 2px;
+    color: var(--fg-muted);
+    font-size: 0.8rem;
   }
 
-  .links a:hover {
-    border-bottom-color: var(--fg);
+  .hero-links a:hover {
+    color: var(--accent-cyan);
   }
 
+  /* ── Sections ── */
   section {
     padding: 36px 0;
     border-top: 1px solid var(--border);
@@ -205,10 +236,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   h2 {
-    font-family: "Playfair Display", serif;
-    font-size: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     font-weight: 400;
-    font-style: italic;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: var(--fg-muted);
     margin: 0 0 24px;
   }
@@ -218,8 +251,47 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     margin: 0 0 18px;
   }
 
+  /* ── Project cards ── */
+  .window-chrome {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .window-chrome span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 150ms ease;
+  }
+
+  .project:hover .window-chrome span:nth-child(1) {
+    background: #ec6a5e;
+  }
+
+  .project:hover .window-chrome span:nth-child(2) {
+    background: #f4bf4f;
+  }
+
+  .project:hover .window-chrome span:nth-child(3) {
+    background: #61c554;
+  }
+
   .project {
-    margin-bottom: 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    transition:
+      border-color 150ms ease,
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+
+  .project:hover {
+    border-color: var(--accent-cyan);
   }
 
   .project:last-child {
@@ -227,31 +299,67 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .project h3 {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
     margin: 0 0 8px;
     font-weight: 500;
     color: var(--fg);
   }
 
+  .project p:last-child {
+    margin-bottom: 0;
+  }
+
   .project a {
     color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
   }
 
   .project a:hover {
-    border-bottom-color: var(--accent);
+    text-decoration-color: var(--accent);
   }
 
+  /* ── Background list ── */
   .background-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .line-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+    opacity: 0.5;
+    margin-right: 14px;
+    user-select: none;
   }
 
   .background-list li {
     color: var(--fg-muted);
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+    padding: 4px 0 4px 0;
+    display: flex;
+    align-items: baseline;
+    border-left: 2px solid var(--border);
+    padding-left: 16px;
+    transition:
+      border-color 150ms ease,
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+
+  .background-list li:hover {
+    border-left-color: var(--accent-cyan);
+  }
+
+  .background-list li:hover .line-num {
+    opacity: 1;
   }
 
   @media (max-width: 860px) {

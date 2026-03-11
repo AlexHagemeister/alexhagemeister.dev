@@ -551,16 +551,16 @@ const allImages = projects.flatMap((p) => p.images);
   }
 
   .project h2 {
-    font-family: "Playfair Display", serif;
-    font-weight: 400;
-    font-size: 1.45rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 1.1rem;
     margin: 0 0 16px;
   }
 
   .project h2 span {
     color: var(--fg-muted);
-    font-size: 1rem;
-    font-weight: 300;
+    font-size: 0.85rem;
+    font-weight: 400;
   }
 
   .project > p {
@@ -627,11 +627,12 @@ const allImages = projects.flatMap((p) => p.images);
   }
 
   .caption {
+    font-family: var(--font-mono);
     margin: 10px 0 0;
     max-width: 380px;
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     color: var(--fg-muted);
-    font-style: italic;
+    font-style: normal;
   }
 
   .scroll-hint {
@@ -656,12 +657,14 @@ const allImages = projects.flatMap((p) => p.images);
   }
 
   .back a {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     text-decoration: none;
     color: var(--fg-muted);
   }
 
   .back a:hover {
-    color: var(--fg);
+    color: var(--accent-cyan);
   }
 
   .lightbox {
@@ -704,10 +707,11 @@ const allImages = projects.flatMap((p) => p.images);
   }
 
   .lb-caption {
+    font-family: var(--font-mono);
     margin-top: 12px;
     color: var(--fg-muted);
-    font-style: italic;
-    font-size: 0.82rem;
+    font-style: normal;
+    font-size: 0.75rem;
     text-align: center;
     max-width: 480px;
   }

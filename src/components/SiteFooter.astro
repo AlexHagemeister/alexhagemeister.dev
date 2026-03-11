@@ -5,7 +5,19 @@ const { compact = false } = Astro.props as { compact?: boolean };
 <footer class={`site-footer ${compact ? "compact" : ""}`}>
   <div class="container">
     <p>Looking for new grad roles starting summer 2026.</p>
-    <a href="mailto:hagemeister.alex@gmail.com">hagemeister.alex@gmail.com</a>
+    <div class="footer-links">
+      <a href="mailto:hagemeister.alex@gmail.com">hagemeister.alex@gmail.com</a>
+      <a
+        href="https://github.com/AlexHagemeister"
+        target="_blank"
+        rel="noreferrer">GitHub</a
+      >
+      <a
+        href="https://www.linkedin.com/in/alexhagemeister/"
+        target="_blank"
+        rel="noreferrer">LinkedIn</a
+      >
+    </div>
   </div>
 </footer>
 
@@ -21,17 +33,27 @@ const { compact = false } = Astro.props as { compact?: boolean };
   }
 
   .site-footer p {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     color: var(--fg-muted);
     margin: 0 0 14px;
   }
 
-  .site-footer a {
-    text-decoration: none;
-    border-bottom: 1px solid var(--fg-muted);
-    padding-bottom: 2px;
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
   }
 
-  .site-footer a:hover {
-    border-bottom-color: var(--fg);
+  .footer-links a {
+    font-family: var(--font-mono);
+    text-decoration: none;
+    color: var(--fg-muted);
+    font-size: 0.8rem;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent-cyan);
   }
 </style>
