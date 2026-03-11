@@ -7,7 +7,6 @@ interface NavItem {
 const { currentPath = "/" } = Astro.props as { currentPath?: string };
 
 const navItems: NavItem[] = [
-  { href: "/", label: "Work" },
   { href: "/projects/", label: "Projects" },
   { href: "/art/", label: "Art" },
   { href: "/blog/", label: "Blog" },
@@ -21,13 +20,18 @@ const isActive = (href: string): boolean => {
 
 <nav class="site-nav" aria-label="Primary">
   <div class="container nav-inner">
-    {
-      navItems.map((item) => (
-        <a href={item.href} class={isActive(item.href) ? "active" : ""}>
-          {item.label}
-        </a>
-      ))
-    }
+    <a href="/" class="brand" aria-label="Alex Hagemeister — home"
+      >Alex Hagemeister</a
+    >
+    <div class="nav-links">
+      {
+        navItems.map((item) => (
+          <a href={item.href} class={isActive(item.href) ? "active" : ""}>
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
   </div>
 </nav>
 
@@ -38,15 +42,35 @@ const isActive = (href: string): boolean => {
 
   .nav-inner {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
     padding: 28px 24px;
+  }
+
+  .brand {
+    font-family: "Playfair Display", serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+    color: var(--fg);
+    white-space: nowrap;
+  }
+
+  .brand:hover {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 10px;
   }
 
   .site-nav a {
     text-decoration: none;
     padding: 8px 16px;
     color: var(--fg);
+    transition: color 150ms ease;
   }
 
   .site-nav a:hover {
@@ -55,10 +79,19 @@ const isActive = (href: string): boolean => {
 
   .site-nav a.active {
     color: var(--accent);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
   }
 
   @media (max-width: 640px) {
     .nav-inner {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-links {
       flex-wrap: wrap;
       gap: 2px;
     }

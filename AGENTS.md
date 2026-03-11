@@ -2,6 +2,7 @@
 
 - When updating AGENTS memory, only add non-obvious, durable guidance that is good to remember across sessions.
 - Prefer GitHub CLI for GitHub operations over the web UI when possible.
+- Discuss approach and get explicit approval before writing code for non-trivial changes.
 
 ## Learned Workspace Facts
 

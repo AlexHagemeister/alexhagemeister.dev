@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SiteFooter from "../components/SiteFooter.astro";
 ---
 
 <BaseLayout
@@ -144,12 +143,11 @@ import SiteFooter from "../components/SiteFooter.astro";
       </ul>
     </section>
   </main>
-  <SiteFooter />
 </BaseLayout>
 
 <style>
   .hero {
-    padding: 84px 0 56px;
+    padding: 64px 0 42px;
     display: flex;
     align-items: center;
     gap: 42px;
@@ -184,7 +182,6 @@ import SiteFooter from "../components/SiteFooter.astro";
     flex-wrap: wrap;
     gap: 18px;
     padding: 24px 0 40px;
-    border-bottom: 1px solid var(--border);
   }
 
   .links a {
@@ -198,16 +195,20 @@ import SiteFooter from "../components/SiteFooter.astro";
   }
 
   section {
-    padding: 52px 0;
+    padding: 36px 0;
     border-top: 1px solid var(--border);
+  }
+
+  #about {
+    border-top: none;
+    padding-top: 0;
   }
 
   h2 {
     font-family: "Playfair Display", serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-style: italic;
     color: var(--fg-muted);
     margin: 0 0 24px;
   }
@@ -253,11 +254,11 @@ import SiteFooter from "../components/SiteFooter.astro";
     border-bottom: 1px solid var(--border);
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 860px) {
     .hero {
       flex-direction: column;
       align-items: flex-start;
-      padding-top: 56px;
+      padding-top: 48px;
       gap: 24px;
     }
 

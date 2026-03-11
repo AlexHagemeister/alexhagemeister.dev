@@ -9,10 +9,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 >
   <main class="container projects-page">
     <h1>Projects</h1>
-    <p>
-      Selected standalone projects are being migrated and expanded. More detail
-      landing soon.
+    <p class="status">
+      Standalone project pages are being built out. In the meantime:
     </p>
+    <nav class="next-actions" aria-label="Next steps">
+      <a href="/#projects">Selected work on home page →</a>
+      <a
+        href="https://github.com/AlexHagemeister"
+        target="_blank"
+        rel="noreferrer">Code on GitHub →</a
+      >
+      <a href="/blog/">Writing on the blog →</a>
+    </nav>
   </main>
 </BaseLayout>
 
@@ -30,9 +38,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     margin: 0 0 16px;
   }
 
-  p {
-    margin: 0;
+  .status {
+    margin: 0 0 32px;
     color: var(--fg-muted);
     font-size: 1.05rem;
+  }
+
+  .next-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .next-actions a {
+    text-decoration: none;
+    color: var(--fg-muted);
+    font-size: 1rem;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    width: fit-content;
+  }
+
+  .next-actions a:hover {
+    color: var(--fg);
+    border-bottom-color: var(--fg-muted);
   }
 </style>

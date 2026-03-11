@@ -26,6 +26,7 @@ body {
 
 a {
   color: inherit;
+  transition: color 150ms ease;
 }
 
 .container {
