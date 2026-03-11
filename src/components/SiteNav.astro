@@ -1,66 +1,66 @@
 ---
 interface NavItem {
-	href: string;
-	label: string;
+  href: string;
+  label: string;
 }
 
-const { currentPath = '/' } = Astro.props as { currentPath?: string };
+const { currentPath = "/" } = Astro.props as { currentPath?: string };
 
 const navItems: NavItem[] = [
-	{ href: '/', label: 'Work' },
-	{ href: '/projects/', label: 'Projects' },
-	{ href: '/art/', label: 'Art' },
-	{ href: '/blog/', label: 'Blog' },
+  { href: "/", label: "Work" },
+  { href: "/projects/", label: "Projects" },
+  { href: "/art/", label: "Art" },
+  { href: "/blog/", label: "Blog" },
 ];
 
 const isActive = (href: string): boolean => {
-	if (href === '/') return currentPath === '/';
-	return currentPath === href || currentPath.startsWith(href);
+  if (href === "/") return currentPath === "/";
+  return currentPath === href || currentPath.startsWith(href);
 };
 ---
 
 <nav class="site-nav" aria-label="Primary">
-	<div class="container nav-inner">
-		{
-			navItems.map((item) => (
-				<a href={item.href} class={isActive(item.href) ? 'active' : ''}>
-					{item.label}
-				</a>
-			))
-		}
-	</div>
+  <div class="container nav-inner">
+    {
+      navItems.map((item) => (
+        <a href={item.href} class={isActive(item.href) ? "active" : ""}>
+          {item.label}
+        </a>
+      ))
+    }
+  </div>
 </nav>
 
 <style>
-	.site-nav {
-		border-bottom: 1px solid var(--border);
-	}
+  .site-nav {
+    border-bottom: 1px solid var(--border);
+  }
 
-	.nav-inner {
-		display: flex;
-		justify-content: center;
-		gap: 10px;
-		padding: 28px 24px;
-	}
+  .nav-inner {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 28px 24px;
+  }
 
-	.site-nav a {
-		text-decoration: none;
-		padding: 8px 16px;
-		color: var(--fg);
-	}
+  .site-nav a {
+    text-decoration: none;
+    padding: 8px 16px;
+    color: var(--fg);
+  }
 
-	.site-nav a:hover {
-		color: var(--accent);
-	}
+  .site-nav a:hover {
+    color: var(--accent);
+  }
 
-	.site-nav a.active {
-		color: var(--accent);
-	}
+  .site-nav a.active {
+    color: var(--accent);
+  }
 
-	@media (max-width: 640px) {
-		.nav-inner {
-			flex-wrap: wrap;
-			gap: 2px;
-		}
-	}
+  @media (max-width: 640px) {
+    .nav-inner {
+      flex-wrap: wrap;
+      gap: 2px;
+    }
+  }
 </style>
