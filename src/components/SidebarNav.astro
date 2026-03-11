@@ -1,0 +1,153 @@
+---
+interface NavItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+const navItems: NavItem[] = [
+  { href: "/", label: "Home" },
+  { href: "/projects/", label: "Projects" },
+  { href: "/art/", label: "Art" },
+  { href: "/blog/", label: "Blog" },
+];
+
+const isActive = (href: string): boolean => {
+  if (href === "/") return currentPath === "/";
+  return currentPath === href || currentPath.startsWith(href);
+};
+---
+
+<aside class="sidebar" aria-label="Primary navigation">
+  <a href="/" class="brand" aria-label="Alex Hagemeister — home">
+    Alex Hagemeister
+  </a>
+
+  <nav class="nav-links">
+    {
+      navItems.map((item) => (
+        <a
+          href={item.href}
+          class={isActive(item.href) ? "active" : ""}
+          aria-current={isActive(item.href) ? "page" : undefined}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="mailto:hagemeister.alex@gmail.com" aria-label="Email">Email</a>
+    <a
+      href="https://github.com/AlexHagemeister"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="GitHub"
+    >
+      GitHub
+    </a>
+    <a
+      href="https://www.linkedin.com/in/alexhagemeister/"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="LinkedIn"
+    >
+      LinkedIn
+    </a>
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px;
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .brand {
+    font-family: "Playfair Display", serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    text-decoration: none;
+    color: var(--fg);
+    white-space: nowrap;
+    margin-bottom: 40px;
+  }
+
+  .brand:hover {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 8px 12px;
+    color: var(--fg-muted);
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--fg);
+    background: var(--surface);
+  }
+
+  .nav-links a.active {
+    color: var(--accent-cyan);
+    background: var(--surface);
+    border-left-color: var(--accent-cyan);
+  }
+
+  .sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .sidebar-footer a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-decoration: none;
+    color: var(--fg-muted);
+    transition: color 150ms ease;
+  }
+
+  .sidebar-footer a:hover {
+    color: var(--accent-cyan);
+  }
+
+  @media (max-width: 859px) {
+    .sidebar {
+      display: none;
+    }
+  }
+</style>

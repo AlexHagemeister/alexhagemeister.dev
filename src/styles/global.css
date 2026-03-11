@@ -8,6 +8,8 @@
   --accent-cyan: #88c0d0;
   --font-mono: "JetBrains Mono", monospace;
   --max-content-width: 760px;
+  --sidebar-width: 240px;
+  --bottom-bar-height: 64px;
 }
 
 * {
@@ -70,4 +72,17 @@ body::before {
   width: min(100%, var(--max-content-width));
   margin: 0 auto;
   padding: 0 24px;
+}
+
+/* Two-column layout: sidebar + scrollable content */
+.main-content {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+}
+
+@media (max-width: 859px) {
+  .main-content {
+    margin-left: 0;
+    padding-bottom: var(--bottom-bar-height);
+  }
 }
