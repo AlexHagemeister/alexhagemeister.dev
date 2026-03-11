@@ -216,310 +216,337 @@ const allImages = projects.flatMap((p) => p.images);
 </BaseLayout>
 
 <script>
-  const lightbox = document.getElementById("lightbox");
-  const track = document.getElementById("lb-track") as HTMLElement | null;
-  const slides = Array.from(
-    document.querySelectorAll<HTMLElement>(".lb-slide"),
-  );
-  const closeButton = document.getElementById("close-lightbox");
-  const prevButton = document.getElementById("lightbox-prev");
-  const nextButton = document.getElementById("lightbox-next");
+  let ac: AbortController | undefined;
 
-  let current = 0;
-  let activeTrigger: HTMLElement | null = null;
+  document.addEventListener("astro:page-load", () => {
+    ac?.abort();
+    ac = new AbortController();
+    const { signal } = ac;
 
-  // ── Zoom state (applied to each slide's img) ──────────────────────────────
-  const MAX_SCALE = 4;
-  let scale = 1;
-  let zoomTX = 0;
-  let zoomTY = 0;
+    const lightbox = document.getElementById("lightbox");
+    if (!lightbox) return;
 
-  const currentImg = () =>
-    slides[current]?.querySelector("img") as HTMLImageElement | null;
+    const track = document.getElementById("lb-track") as HTMLElement | null;
+    const slides = Array.from(
+      document.querySelectorAll<HTMLElement>(".lb-slide"),
+    );
+    const closeButton = document.getElementById("close-lightbox");
+    const prevButton = document.getElementById("lightbox-prev");
+    const nextButton = document.getElementById("lightbox-next");
 
-  const applyZoom = () => {
-    const img = currentImg();
-    if (!img) return;
-    img.style.transform =
-      scale === 1 ? "" : `translate(${zoomTX}px, ${zoomTY}px) scale(${scale})`;
-    img.style.cursor = scale > 1 ? "grab" : "zoom-in";
-  };
+    let current = 0;
+    let activeTrigger: HTMLElement | null = null;
 
-  const resetZoom = () => {
-    const img = currentImg();
-    if (img) {
-      img.style.transform = "";
-      img.style.cursor = "zoom-in";
-    }
-    scale = 1;
-    zoomTX = 0;
-    zoomTY = 0;
-  };
+    // ── Zoom state (applied to each slide's img) ────────────────────────────
+    const MAX_SCALE = 4;
+    let scale = 1;
+    let zoomTX = 0;
+    let zoomTY = 0;
 
-  // ── Sliding track ─────────────────────────────────────────────────────────
-  const slideW = () => window.innerWidth;
+    const currentImg = () =>
+      slides[current]?.querySelector("img") as HTMLImageElement | null;
 
-  const goTo = (index: number, animate = true) => {
-    resetZoom();
-    current = ((index % slides.length) + slides.length) % slides.length;
-    if (!track) return;
-    track.style.transition = animate
-      ? "transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-      : "none";
-    track.style.transform = `translateX(${-current * slideW()}px)`;
-  };
-
-  const openLightbox = (index: number, trigger: HTMLElement | null) => {
-    activeTrigger = trigger;
-    goTo(index, false);
-    lightbox?.classList.add("active");
-    document.body.style.overflow = "hidden";
-    requestAnimationFrame(() => {
-      if (closeButton instanceof HTMLButtonElement) closeButton.focus();
-    });
-  };
-
-  const closeLightbox = () => {
-    resetZoom();
-    lightbox?.classList.remove("active");
-    document.body.style.overflow = "";
-    const target =
-      activeTrigger instanceof HTMLElement && activeTrigger.isConnected
-        ? activeTrigger
-        : document.body;
-    target.focus();
-    activeTrigger = null;
-  };
-
-  // ── Gallery thumbnails ────────────────────────────────────────────────────
-  document
-    .querySelectorAll<HTMLImageElement>(".gallery-item img")
-    .forEach((img) => {
-      img.addEventListener("click", () =>
-        openLightbox(Number(img.dataset.index ?? 0), img),
-      );
-      img.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openLightbox(Number(img.dataset.index ?? 0), img);
-        }
-      });
-    });
-
-  // ── Gallery scroll state ──────────────────────────────────────────────────
-  document.querySelectorAll(".gallery").forEach((gallery) => {
-    const update = () => {
-      if (!(gallery instanceof HTMLElement)) return;
-      gallery.classList.toggle("scrolled", gallery.scrollLeft > 10);
+    const applyZoom = () => {
+      const img = currentImg();
+      if (!img) return;
+      img.style.transform =
+        scale === 1
+          ? ""
+          : `translate(${zoomTX}px, ${zoomTY}px) scale(${scale})`;
+      img.style.cursor = scale > 1 ? "grab" : "zoom-in";
     };
-    gallery.addEventListener("scroll", update);
-    update();
-  });
 
-  // ── Buttons + keyboard ────────────────────────────────────────────────────
-  prevButton?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    goTo(current - 1);
-  });
-  nextButton?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    goTo(current + 1);
-  });
-  closeButton?.addEventListener("click", closeLightbox);
-  lightbox?.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (!lightbox?.classList.contains("active")) return;
-    if (e.key === "Escape") closeLightbox();
-    if (e.key === "ArrowLeft") goTo(current - 1);
-    if (e.key === "ArrowRight") goTo(current + 1);
-  });
-
-  // ── Drag to navigate / pan when zoomed (mouse) ───────────────────────────
-  let isDragging = false;
-  let isPanning = false;
-  let dragStartX = 0;
-  let dragStartY = 0;
-  let panStartTX = 0;
-  let panStartTY = 0;
-
-  lightbox?.addEventListener("mousedown", (e) => {
-    if ((e.target as Element).closest(".nav-btn, .close")) return;
-    dragStartX = e.clientX;
-    dragStartY = e.clientY;
-    if (scale > 1) {
-      isPanning = true;
-      panStartTX = zoomTX;
-      panStartTY = zoomTY;
+    const resetZoom = () => {
       const img = currentImg();
-      if (img) img.style.cursor = "grabbing";
-    } else {
-      isDragging = true;
-      if (track) track.style.transition = "none";
-    }
-    e.preventDefault();
-  });
+      if (img) {
+        img.style.transform = "";
+        img.style.cursor = "zoom-in";
+      }
+      scale = 1;
+      zoomTX = 0;
+      zoomTY = 0;
+    };
 
-  document.addEventListener("mousemove", (e) => {
-    if (isPanning) {
-      zoomTX = panStartTX + (e.clientX - dragStartX);
-      zoomTY = panStartTY + (e.clientY - dragStartY);
-      applyZoom();
-    } else if (isDragging && track) {
-      track.style.transform = `translateX(${-current * slideW() + (e.clientX - dragStartX)}px)`;
-    }
-  });
+    // ── Sliding track ───────────────────────────────────────────────────────
+    const slideW = () => window.innerWidth;
 
-  document.addEventListener("mouseup", (e) => {
-    if (isPanning) {
-      isPanning = false;
-      const img = currentImg();
-      if (img) img.style.cursor = "grab";
-    } else if (isDragging) {
-      isDragging = false;
-      const dx = e.clientX - dragStartX;
-      if (dx < -60) goTo(current + 1);
-      else if (dx > 60) goTo(current - 1);
-      else goTo(current);
-    }
-  });
-
-  // ── Double-click / double-tap to toggle zoom ──────────────────────────────
-  let lastTap = 0;
-  const toggleZoom = () => {
-    if (scale > 1) {
+    const goTo = (index: number, animate = true) => {
       resetZoom();
-    } else {
-      scale = 2.5;
-      applyZoom();
-    }
-  };
-  lightbox?.addEventListener("dblclick", (e) => {
-    if ((e.target as Element).closest(".nav-btn, .close")) return;
-    toggleZoom();
-  });
+      current = ((index % slides.length) + slides.length) % slides.length;
+      if (!track) return;
+      track.style.transition = animate
+        ? "transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+        : "none";
+      track.style.transform = `translateX(${-current * slideW()}px)`;
+    };
 
-  // ── Touch: pinch zoom + swipe/drag to navigate ────────────────────────────
-  let touchStartX = 0;
-  let pinchStartDist = 0;
-  let pinchStartScale = 1;
-  let isPinching = false;
+    const openLightbox = (index: number, trigger: HTMLElement | null) => {
+      activeTrigger = trigger;
+      goTo(index, false);
+      lightbox.classList.add("active");
+      document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => {
+        if (closeButton instanceof HTMLButtonElement) closeButton.focus();
+      });
+    };
 
-  lightbox?.addEventListener(
-    "touchstart",
-    (e) => {
-      if (e.touches.length === 2) {
-        isPinching = true;
-        pinchStartDist = Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY,
+    const closeLightbox = () => {
+      resetZoom();
+      lightbox.classList.remove("active");
+      document.body.style.overflow = "";
+      const target =
+        activeTrigger instanceof HTMLElement && activeTrigger.isConnected
+          ? activeTrigger
+          : document.body;
+      target.focus();
+      activeTrigger = null;
+    };
+
+    // ── Gallery thumbnails ──────────────────────────────────────────────────
+    document
+      .querySelectorAll<HTMLImageElement>(".gallery-item img")
+      .forEach((img) => {
+        img.addEventListener("click", () =>
+          openLightbox(Number(img.dataset.index ?? 0), img),
         );
-        pinchStartScale = scale;
-      } else if (e.touches.length === 1) {
-        touchStartX = e.touches[0].clientX;
-        dragStartX = e.touches[0].clientX;
-        dragStartY = e.touches[0].clientY;
-        if (scale > 1) {
-          isPanning = true;
-          panStartTX = zoomTX;
-          panStartTY = zoomTY;
-        } else {
-          if (track) track.style.transition = "none";
-        }
-        // Double-tap
-        const now = Date.now();
-        if (now - lastTap < 300) {
-          e.preventDefault();
-          toggleZoom();
-        }
-        lastTap = now;
+        img.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openLightbox(Number(img.dataset.index ?? 0), img);
+          }
+        });
+      });
+
+    // ── Gallery scroll state ────────────────────────────────────────────────
+    document.querySelectorAll(".gallery").forEach((gallery) => {
+      const update = () => {
+        if (!(gallery instanceof HTMLElement)) return;
+        gallery.classList.toggle("scrolled", gallery.scrollLeft > 10);
+      };
+      gallery.addEventListener("scroll", update);
+      update();
+    });
+
+    // ── Buttons + keyboard ──────────────────────────────────────────────────
+    prevButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      goTo(current - 1);
+    });
+    nextButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      goTo(current + 1);
+    });
+    closeButton?.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (!lightbox.classList.contains("active")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") goTo(current - 1);
+        if (e.key === "ArrowRight") goTo(current + 1);
+      },
+      { signal },
+    );
+
+    // ── Drag to navigate / pan when zoomed (mouse) ─────────────────────────
+    let isDragging = false;
+    let isPanning = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let panStartTX = 0;
+    let panStartTY = 0;
+
+    lightbox.addEventListener("mousedown", (e) => {
+      if ((e.target as Element).closest(".nav-btn, .close")) return;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      if (scale > 1) {
+        isPanning = true;
+        panStartTX = zoomTX;
+        panStartTY = zoomTY;
+        const img = currentImg();
+        if (img) img.style.cursor = "grabbing";
+      } else {
+        isDragging = true;
+        if (track) track.style.transition = "none";
       }
-    },
-    { passive: false },
-  );
-
-  lightbox?.addEventListener(
-    "touchmove",
-    (e) => {
       e.preventDefault();
-      if (e.touches.length === 2 && isPinching) {
-        const dist = Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY,
-        );
-        scale = Math.min(
-          MAX_SCALE,
-          Math.max(1, pinchStartScale * (dist / pinchStartDist)),
-        );
-        if (scale === 1) {
-          zoomTX = 0;
-          zoomTY = 0;
-        }
-        applyZoom();
-      } else if (e.touches.length === 1) {
-        const t = e.touches[0];
+    });
+
+    document.addEventListener(
+      "mousemove",
+      (e) => {
         if (isPanning) {
-          zoomTX = panStartTX + (t.clientX - dragStartX);
-          zoomTY = panStartTY + (t.clientY - dragStartY);
+          zoomTX = panStartTX + (e.clientX - dragStartX);
+          zoomTY = panStartTY + (e.clientY - dragStartY);
           applyZoom();
-        } else if (!isPinching && track) {
-          track.style.transform = `translateX(${-current * slideW() + (t.clientX - touchStartX)}px)`;
+        } else if (isDragging && track) {
+          track.style.transform = `translateX(${-current * slideW() + (e.clientX - dragStartX)}px)`;
         }
-      }
-    },
-    { passive: false },
-  );
+      },
+      { signal },
+    );
 
-  lightbox?.addEventListener("touchend", (e) => {
-    if (e.touches.length < 2) isPinching = false;
-    if (e.touches.length === 0) {
-      if (isPanning) {
-        isPanning = false;
-      } else if (scale <= 1) {
-        const dx = e.changedTouches[0].clientX - touchStartX;
-        if (dx < -60) goTo(current + 1);
-        else if (dx > 60) goTo(current - 1);
-        else goTo(current);
-      }
-    }
-  });
-
-  // ── Trackpad: pinch zoom + horizontal swipe ───────────────────────────────
-  let lastNavTime = 0;
-  lightbox?.addEventListener(
-    "wheel",
-    (e) => {
-      e.preventDefault();
-      if (e.ctrlKey) {
-        scale = Math.min(
-          MAX_SCALE,
-          Math.max(1, scale * (1 - e.deltaY * 0.008)),
-        );
-        if (scale === 1) {
-          zoomTX = 0;
-          zoomTY = 0;
+    document.addEventListener(
+      "mouseup",
+      (e) => {
+        if (isPanning) {
+          isPanning = false;
+          const img = currentImg();
+          if (img) img.style.cursor = "grab";
+        } else if (isDragging) {
+          isDragging = false;
+          const dx = e.clientX - dragStartX;
+          if (dx < -60) goTo(current + 1);
+          else if (dx > 60) goTo(current - 1);
+          else goTo(current);
         }
+      },
+      { signal },
+    );
+
+    // ── Double-click / double-tap to toggle zoom ────────────────────────────
+    let lastTap = 0;
+    const toggleZoom = () => {
+      if (scale > 1) {
+        resetZoom();
+      } else {
+        scale = 2.5;
         applyZoom();
-      } else if (
-        scale <= 1 &&
-        Math.abs(e.deltaX) > Math.abs(e.deltaY) &&
-        Math.abs(e.deltaX) > 2
-      ) {
-        const now = Date.now();
-        if (now - lastNavTime > 500) {
-          lastNavTime = now;
-          if (e.deltaX > 0) goTo(current + 1);
-          else goTo(current - 1);
+      }
+    };
+    lightbox.addEventListener("dblclick", (e) => {
+      if ((e.target as Element).closest(".nav-btn, .close")) return;
+      toggleZoom();
+    });
+
+    // ── Touch: pinch zoom + swipe/drag to navigate ──────────────────────────
+    let touchStartX = 0;
+    let pinchStartDist = 0;
+    let pinchStartScale = 1;
+    let isPinching = false;
+
+    lightbox.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length === 2) {
+          isPinching = true;
+          pinchStartDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY,
+          );
+          pinchStartScale = scale;
+        } else if (e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX;
+          dragStartX = e.touches[0].clientX;
+          dragStartY = e.touches[0].clientY;
+          if (scale > 1) {
+            isPanning = true;
+            panStartTX = zoomTX;
+            panStartTY = zoomTY;
+          } else {
+            if (track) track.style.transition = "none";
+          }
+          const now = Date.now();
+          if (now - lastTap < 300) {
+            e.preventDefault();
+            toggleZoom();
+          }
+          lastTap = now;
+        }
+      },
+      { passive: false },
+    );
+
+    lightbox.addEventListener(
+      "touchmove",
+      (e) => {
+        e.preventDefault();
+        if (e.touches.length === 2 && isPinching) {
+          const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY,
+          );
+          scale = Math.min(
+            MAX_SCALE,
+            Math.max(1, pinchStartScale * (dist / pinchStartDist)),
+          );
+          if (scale === 1) {
+            zoomTX = 0;
+            zoomTY = 0;
+          }
+          applyZoom();
+        } else if (e.touches.length === 1) {
+          const t = e.touches[0];
+          if (isPanning) {
+            zoomTX = panStartTX + (t.clientX - dragStartX);
+            zoomTY = panStartTY + (t.clientY - dragStartY);
+            applyZoom();
+          } else if (!isPinching && track) {
+            track.style.transform = `translateX(${-current * slideW() + (t.clientX - touchStartX)}px)`;
+          }
+        }
+      },
+      { passive: false },
+    );
+
+    lightbox.addEventListener("touchend", (e) => {
+      if (e.touches.length < 2) isPinching = false;
+      if (e.touches.length === 0) {
+        if (isPanning) {
+          isPanning = false;
+        } else if (scale <= 1) {
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          if (dx < -60) goTo(current + 1);
+          else if (dx > 60) goTo(current - 1);
+          else goTo(current);
         }
       }
-    },
-    { passive: false },
-  );
+    });
 
-  // ── Recalculate position on resize ───────────────────────────────────────
-  window.addEventListener("resize", () => {
-    if (lightbox?.classList.contains("active")) goTo(current, false);
+    // ── Trackpad: pinch zoom + horizontal swipe ─────────────────────────────
+    let lastNavTime = 0;
+    lightbox.addEventListener(
+      "wheel",
+      (e) => {
+        e.preventDefault();
+        if (e.ctrlKey) {
+          scale = Math.min(
+            MAX_SCALE,
+            Math.max(1, scale * (1 - e.deltaY * 0.008)),
+          );
+          if (scale === 1) {
+            zoomTX = 0;
+            zoomTY = 0;
+          }
+          applyZoom();
+        } else if (
+          scale <= 1 &&
+          Math.abs(e.deltaX) > Math.abs(e.deltaY) &&
+          Math.abs(e.deltaX) > 2
+        ) {
+          const now = Date.now();
+          if (now - lastNavTime > 500) {
+            lastNavTime = now;
+            if (e.deltaX > 0) goTo(current + 1);
+            else goTo(current - 1);
+          }
+        }
+      },
+      { passive: false },
+    );
+
+    // ── Recalculate position on resize ──────────────────────────────────────
+    window.addEventListener(
+      "resize",
+      () => {
+        if (lightbox.classList.contains("active")) goTo(current, false);
+      },
+      { signal },
+    );
   });
 </script>
 

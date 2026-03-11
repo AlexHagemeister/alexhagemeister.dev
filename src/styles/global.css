@@ -28,6 +28,10 @@ body {
   min-height: 100%;
 }
 
+::view-transition {
+  background-color: var(--bg);
+}
+
 a {
   color: inherit;
   transition:
