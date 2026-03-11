@@ -1,0 +1,37 @@
+---
+const { compact = false } = Astro.props as { compact?: boolean };
+---
+
+<footer class={`site-footer ${compact ? 'compact' : ''}`}>
+	<div class="container">
+		<p>Looking for new grad roles starting summer 2026.</p>
+		<a href="mailto:hagemeister.alex@gmail.com">hagemeister.alex@gmail.com</a>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		border-top: 1px solid var(--border);
+		padding: 64px 0 88px;
+		text-align: center;
+	}
+
+	.site-footer.compact {
+		padding: 40px 0 56px;
+	}
+
+	.site-footer p {
+		color: var(--fg-muted);
+		margin: 0 0 14px;
+	}
+
+	.site-footer a {
+		text-decoration: none;
+		border-bottom: 1px solid var(--fg-muted);
+		padding-bottom: 2px;
+	}
+
+	.site-footer a:hover {
+		border-bottom-color: var(--fg);
+	}
+</style>

@@ -1,11 +1,231 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+	title="Alex Hagemeister — Portfolio"
+	description="Portfolio of Alex Hagemeister. AI/ML infrastructure, RAG systems, and production-focused software."
+	currentPath="/"
+>
+	<main class="container">
+		<header class="hero">
+			<div class="hero-image">
+				<img src="/images/profile.png" alt="Portrait of Alex Hagemeister" />
+			</div>
+			<div class="hero-content">
+				<h1>Alex Hagemeister</h1>
+				<p class="location">San Francisco</p>
+				<p class="tagline">I build things. Most of them interesting, some of them useful.</p>
+			</div>
+		</header>
+
+		<div class="links" aria-label="External links">
+			<a href="mailto:hagemeister.alex@gmail.com">Email</a>
+			<a href="https://github.com/AlexHagemeister" target="_blank" rel="noreferrer">GitHub</a>
+			<a href="https://www.linkedin.com/in/alexhagemeister/" target="_blank" rel="noreferrer">LinkedIn</a>
+			<a href="https://arxiv.org/abs/2410.02680" target="_blank" rel="noreferrer">Research</a>
+		</div>
+
+		<section id="about">
+			<h2>About</h2>
+			<p><strong>B.S. EECS, UC Berkeley, graduating May 2026.</strong> Regents' and Chancellor's Scholarship recipient.</p>
+
+			<p>
+				AI capability is accelerating faster than most can fully grasp, but most organizations are still
+				figuring out how to use it for anything beyond chatbots and demo days. What AI can technically do
+				will continue to outpace what companies and developers can actually get out of them.
+			</p>
+
+			<p>
+				<strong>That gap is my target for the next 2-5 years:</strong> the infrastructure that takes raw AI
+				capability and makes it work inside real workflows with messy data and vague requirements.
+			</p>
+
+			<p>
+				Writing code is getting commoditized. <strong>What isn't:</strong> figuring out what needs to exist,
+				designing the system that gets you there, and making it run reliably in production.
+			</p>
+		</section>
+
+		<section id="projects">
+			<h2>Selected Work</h2>
+			<div class="project">
+				<h3>Highly Adaptive Ridge</h3>
+				<p>
+					Co-authored ML research paper as sole undergraduate in UC Berkeley's Center for Targeted
+					Machine Learning. <a href="https://arxiv.org/abs/2410.02680" target="_blank" rel="noreferrer">arXiv:2410.02680</a>
+				</p>
+			</div>
+			<div class="project">
+				<h3>SPLAT — AI Course Tutors, UC Berkeley</h3>
+				<p>
+					Lead developer on Berkeley-funded EdTech platform for course-specific AI tutors. Built the
+					ingestion, retrieval, generation, and student-facing application layers.
+				</p>
+			</div>
+			<div class="project">
+				<h3>IT Service Desk Intern — Stanford Research Institute</h3>
+				<p>
+					Embedded technical support for SRI researchers, handling 300+ service requests in three months
+					and unblocking teams when infrastructure failed.
+				</p>
+			</div>
+		</section>
+
+		<section id="currently-building">
+			<h2>Currently Building</h2>
+			<div class="project">
+				<h3>MCP Servers — Workflow Automation</h3>
+				<p>
+					Production Model Context Protocol servers for automating knowledge work, including Gmail API
+					integration, task workflows, and document processing.
+				</p>
+			</div>
+			<div class="project">
+				<h3>Cursor Memory System — Developer Tooling</h3>
+				<p>
+					A persistent memory architecture for AI-assisted development workflows focused on better context
+					retrieval and long-term project awareness.
+				</p>
+			</div>
+		</section>
+
+		<section id="background">
+			<h2>Background</h2>
+			<ul class="background-list">
+				<li><strong>Burning Man installations.</strong> Led teams building large-scale art that burned.</li>
+				<li><strong>Off-grid infrastructure.</strong> Designed and managed complete field power/water systems.</li>
+				<li><strong>National touring band.</strong> Self-booked and self-managed touring logistics.</li>
+				<li><strong>Sushi chef.</strong> Self-taught, hired directly as chef, rapidly reached top certification tier.</li>
+				<li><strong>Khan Academy math sprint.</strong> Seven years of curriculum in six months.</li>
+			</ul>
+		</section>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.hero {
+		padding: 84px 0 56px;
+		display: flex;
+		align-items: center;
+		gap: 42px;
+	}
+
+	.hero-image img {
+		width: 192px;
+		height: 192px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+
+	h1 {
+		font-family: 'Playfair Display', serif;
+		font-size: 2.45rem;
+		font-weight: 400;
+		margin: 0 0 8px;
+	}
+
+	.location {
+		color: var(--fg-muted);
+		margin: 0 0 18px;
+	}
+
+	.tagline {
+		margin: 0;
+		font-size: 1.15rem;
+	}
+
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 18px;
+		padding: 24px 0 40px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.links a {
+		text-decoration: none;
+		border-bottom: 1px solid var(--fg-muted);
+		padding-bottom: 2px;
+	}
+
+	.links a:hover {
+		border-bottom-color: var(--fg);
+	}
+
+	section {
+		padding: 52px 0;
+		border-top: 1px solid var(--border);
+	}
+
+	h2 {
+		font-family: 'Playfair Display', serif;
+		font-size: 1.2rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: var(--fg-muted);
+		margin: 0 0 24px;
+	}
+
+	p {
+		color: var(--fg-muted);
+		margin: 0 0 18px;
+	}
+
+	.project {
+		margin-bottom: 26px;
+	}
+
+	.project:last-child {
+		margin-bottom: 0;
+	}
+
+	.project h3 {
+		margin: 0 0 8px;
+		font-weight: 500;
+		color: var(--fg);
+	}
+
+	.project a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+	}
+
+	.project a:hover {
+		border-bottom-color: var(--accent);
+	}
+
+	.background-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.background-list li {
+		color: var(--fg-muted);
+		padding: 12px 0;
+		border-bottom: 1px solid var(--border);
+	}
+
+	@media (max-width: 700px) {
+		.hero {
+			flex-direction: column;
+			align-items: flex-start;
+			padding-top: 56px;
+			gap: 24px;
+		}
+
+		.hero-image img {
+			width: 148px;
+			height: 148px;
+		}
+
+		h1 {
+			font-size: 2rem;
+		}
+	}
+</style>

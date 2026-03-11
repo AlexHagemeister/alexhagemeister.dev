@@ -1,0 +1,35 @@
+:root {
+	--bg: #0a0a0a;
+	--surface: #111111;
+	--border: #1f1f1f;
+	--fg: #e5e5e5;
+	--fg-muted: #a3a3a3;
+	--accent: #c4a35a;
+	--max-content-width: 760px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+	line-height: 1.6;
+	min-height: 100%;
+}
+
+a {
+	color: inherit;
+}
+
+.container {
+	width: min(100%, var(--max-content-width));
+	margin: 0 auto;
+	padding: 0 24px;
+}

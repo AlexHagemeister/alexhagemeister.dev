@@ -1,0 +1,87 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	title: string;
+	date: Date;
+	description?: string;
+}
+
+const { title, date, description } = Astro.props;
+---
+
+<BaseLayout title={`${title} — Alex Hagemeister`} description={description ?? ''} currentPath="/blog/">
+	<main class="container">
+		<article>
+			<header>
+				<h1>{title}</h1>
+				<time datetime={date.toISOString()}>{date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+			</header>
+
+			<div class="content">
+				<slot />
+			</div>
+
+			<a class="back-link" href="/blog/">← Back to Blog</a>
+		</article>
+	</main>
+</BaseLayout>
+
+<style>
+	main {
+		padding: 72px 24px 110px;
+	}
+
+	h1 {
+		font-family: 'Playfair Display', serif;
+		font-size: 2.35rem;
+		font-weight: 400;
+		margin: 0 0 12px;
+	}
+
+	time {
+		color: var(--fg-muted);
+		font-size: 0.9rem;
+	}
+
+	.content {
+		margin-top: 42px;
+		color: var(--fg-muted);
+	}
+
+	.content :global(p) {
+		margin: 0 0 20px;
+	}
+
+	.content :global(h2) {
+		color: var(--fg);
+		font-family: 'Playfair Display', serif;
+		font-weight: 400;
+		margin: 36px 0 16px;
+	}
+
+	.content :global(a) {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+	}
+
+	.content :global(a:hover) {
+		border-bottom-color: var(--accent);
+	}
+
+	.content :global(strong) {
+		color: var(--fg);
+	}
+
+	.back-link {
+		display: inline-block;
+		margin-top: 32px;
+		text-decoration: none;
+		color: var(--fg-muted);
+	}
+
+	.back-link:hover {
+		color: var(--accent);
+	}
+</style>
