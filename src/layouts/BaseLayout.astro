@@ -48,7 +48,7 @@ const {
     </div>
     {showNav && <BottomTabBar currentPath={currentPath} />}
     <script>
-      document.addEventListener("astro:page-load", () => {
+      function setupReveal() {
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -63,7 +63,13 @@ const {
         document
           .querySelectorAll(".reveal")
           .forEach((el) => observer.observe(el));
-      });
+      }
+      document.addEventListener("astro:page-load", setupReveal);
+      if (document.readyState !== "loading") {
+        setupReveal();
+      } else {
+        document.addEventListener("DOMContentLoaded", setupReveal);
+      }
     </script>
   </body>
 </html>
