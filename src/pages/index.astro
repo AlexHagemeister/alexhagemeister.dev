@@ -108,9 +108,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
     </section>
 
-    <section id="contact" class="reveal">
-      <h2><span class="prefix">//</span> Contact</h2>
-      <form id="contact-form" class="contact-form">
+    <section id="contact">
+      <h2 class="reveal"><span class="prefix">//</span> Contact</h2>
+      <div class="reveal" style="transition-delay: 80ms">
+        <form id="contact-form" class="contact-form">
         <label for="contact-name">Name</label>
         <input
           type="text"
@@ -146,7 +147,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </div>
         <button type="submit" class="contact-submit">Send</button>
       </form>
-      <p id="form-status" class="contact-status" aria-live="polite"></p>
+        <p id="form-status" class="contact-status" aria-live="polite"></p>
+      </div>
     </section>
   </main>
 </BaseLayout>
@@ -277,12 +279,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   h2 {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
-    font-weight: 400;
+    font-size: 1.15rem;
+    font-weight: 600;
     font-style: normal;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--fg-muted);
+    color: var(--fg);
     margin: 0 0 24px;
   }
 
