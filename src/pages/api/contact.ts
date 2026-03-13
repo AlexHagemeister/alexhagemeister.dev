@@ -6,7 +6,13 @@ import { Resend } from "resend";
 const apiKey =
   process.env.RESEND_API_KEY ??
   (import.meta.env?.RESEND_API_KEY as string | undefined);
-const resend = new Resend(apiKey);
+
+function getResendClient(): Resend {
+  if (!apiKey) {
+    throw new Error("RESEND_API_KEY is required");
+  }
+  return new Resend(apiKey);
+}
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
@@ -35,6 +41,18 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  if (!apiKey) {
+    console.error("RESEND_API_KEY is required but not configured");
+    return new Response(
+      JSON.stringify({ message: "Email service is not configured." }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+
+  const resend = getResendClient();
   const html = [
     name && `<p><strong>Name:</strong> ${escapeHtml(name)}</p>`,
     `<p><strong>Email:</strong> ${escapeHtml(email)}</p>`,
