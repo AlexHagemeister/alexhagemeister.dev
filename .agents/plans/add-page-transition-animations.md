@@ -59,10 +59,12 @@ None.
 ### Patterns to Follow
 
 **Animation conventions (from global.css):**
+
 - Existing transitions use `ease` timing and 150–400ms durations.
 - `prefers-reduced-motion` is already handled for `.reveal`; the View Transitions API handles it automatically for page transitions.
 
 **Script pattern (BaseLayout line 48–61):**
+
 - Inline `<script>` block queries DOM at module scope. With ClientRouter, this runs once on initial load but NOT on subsequent client-side navigations. Wrap in `astro:page-load`.
 
 ---

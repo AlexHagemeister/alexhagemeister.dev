@@ -14,7 +14,12 @@ const icons = {
 
 export const navItems: NavItem[] = [
   { href: "/", label: "Home", icon: icons.home, visible: true },
-  { href: "/projects/", label: "Projects", icon: icons.projects, visible: true },
+  {
+    href: "/projects/",
+    label: "Projects",
+    icon: icons.projects,
+    visible: true,
+  },
   { href: "/art/", label: "Art", icon: icons.art, visible: true },
   { href: "/blog/", label: "Blog", icon: icons.blog, visible: true },
 ];
