@@ -3,57 +3,16 @@ const { compact = false } = Astro.props as { compact?: boolean };
 ---
 
 <footer class={`site-footer ${compact ? "compact" : ""}`}>
-  <div class="container">
-    <p>Looking for new grad roles starting summer 2026.</p>
-    <div class="footer-links">
-      <a href="mailto:hagemeister.alex@gmail.com">hagemeister.alex@gmail.com</a>
-      <a
-        href="https://github.com/AlexHagemeister"
-        target="_blank"
-        rel="noreferrer">GitHub</a
-      >
-      <a
-        href="https://www.linkedin.com/in/alexhagemeister/"
-        target="_blank"
-        rel="noreferrer">LinkedIn</a
-      >
-    </div>
-  </div>
+  <div class="container"></div>
 </footer>
 
 <style>
   .site-footer {
     border-top: 1px solid var(--border);
-    padding: 64px 0 88px;
-    text-align: center;
+    padding: 32px 0 48px;
   }
 
   .site-footer.compact {
-    padding: 40px 0 56px;
-  }
-
-  .site-footer p {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--fg-muted);
-    margin: 0 0 14px;
-  }
-
-  .footer-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-
-  .footer-links a {
-    font-family: var(--font-mono);
-    text-decoration: none;
-    color: var(--fg-muted);
-    font-size: 0.8rem;
-  }
-
-  .footer-links a:hover {
-    color: var(--accent-cyan);
+    padding: 24px 0 32px;
   }
 </style>
