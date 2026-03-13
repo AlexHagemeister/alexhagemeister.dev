@@ -1,5 +1,28 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const projects = [
+  {
+    title: "Highly Adaptive Ridge",
+    description:
+      "Co-authored ML research paper as sole undergraduate in UC Berkeley's Center for Targeted Machine Learning.",
+    href: "https://arxiv.org/abs/2410.02680",
+    linkText: "arXiv:2410.02680",
+    skills: ["Python", "NumPy", "SciPy", "scikit-learn", "pandas", "matplotlib"],
+  },
+  {
+    title: "SPLAT — AI Course Tutors, UC Berkeley",
+    description:
+      "Lead developer on Berkeley-funded EdTech platform for course-specific AI tutors. Built the ingestion, retrieval, generation, and student-facing application layers.",
+    skills: ["Python", "React", "RAG", "LangChain", "FastAPI"],
+  },
+  {
+    title: "IT Service Desk Intern — Stanford Research Institute",
+    description:
+      "Embedded technical support for SRI researchers, handling 300+ service requests in three months and unblocking teams when infrastructure failed.",
+    skills: ["IT Support", "Ticketing", "Troubleshooting", "Infrastructure"],
+  },
+];
 ---
 
 <BaseLayout
@@ -71,41 +94,35 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     <section id="projects">
       <h2><span class="prefix">//</span> Selected Work</h2>
-      <div class="project reveal" style="transition-delay: 0ms">
-        <div class="window-chrome"><span></span><span></span><span></span></div>
-        <h3><span class="prefix">&gt;</span> Highly Adaptive Ridge</h3>
-        <p>
-          Co-authored ML research paper as sole undergraduate in UC Berkeley's
-          Center for Targeted Machine Learning. <a
-            href="https://arxiv.org/abs/2410.02680"
-            target="_blank"
-            rel="noreferrer">arXiv:2410.02680</a
-          >
-        </p>
-      </div>
-      <div class="project reveal" style="transition-delay: 80ms">
-        <div class="window-chrome"><span></span><span></span><span></span></div>
-        <h3>
-          <span class="prefix">&gt;</span> SPLAT — AI Course Tutors, UC Berkeley
-        </h3>
-        <p>
-          Lead developer on Berkeley-funded EdTech platform for course-specific
-          AI tutors. Built the ingestion, retrieval, generation, and
-          student-facing application layers.
-        </p>
-      </div>
-      <div class="project reveal" style="transition-delay: 160ms">
-        <div class="window-chrome"><span></span><span></span><span></span></div>
-        <h3>
-          <span class="prefix">&gt;</span> IT Service Desk Intern — Stanford Research
-          Institute
-        </h3>
-        <p>
-          Embedded technical support for SRI researchers, handling 300+ service
-          requests in three months and unblocking teams when infrastructure
-          failed.
-        </p>
-      </div>
+      {projects.map((project, i) => (
+        <div
+          class="project reveal"
+          style={`transition-delay: ${i * 80}ms`}
+        >
+          <div class="window-chrome"><span></span><span></span><span></span></div>
+          <h3><span class="prefix">&gt;</span> {project.title}</h3>
+          <p>
+            {project.description}
+            {project.href && (
+              <>
+                {" "}
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {project.linkText ?? "Link"}
+                </a>
+              </>
+            )}
+          </p>
+          <ul class="skill-pills" aria-label="Technologies used">
+            {project.skills.map((skill) => (
+              <li>{skill}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </section>
 
     <section id="contact">
@@ -346,6 +363,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     margin: 0 0 8px;
     font-weight: 500;
     color: var(--fg);
+  }
+
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+  }
+
+  .skill-pills li {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 400;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    transition: border-color 150ms ease;
+  }
+
+  .project:hover .skill-pills li {
+    border-color: var(--accent-cyan);
   }
 
   .project p:last-child {
