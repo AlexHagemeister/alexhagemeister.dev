@@ -77,16 +77,17 @@ const isActive = (href: string): boolean => {
     display: flex;
     flex-direction: column;
     margin-bottom: 32px;
+    gap: 4px;
   }
 
   .brand {
     font-family: "Playfair Display", serif;
-    font-size: 1.1rem;
+    font-size: 1.35rem;
     font-weight: 400;
+    letter-spacing: 0.02em;
     text-decoration: none;
     color: var(--fg);
     white-space: nowrap;
-    margin-bottom: 6px;
   }
 
   .brand:hover {
@@ -95,9 +96,9 @@ const isActive = (href: string): boolean => {
 
   .brand-subtitle {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--fg-muted);
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
   .nav-links {

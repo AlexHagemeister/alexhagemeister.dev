@@ -107,62 +107,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
       </div>
     </section>
-
-    <section id="currently-building">
-      <h2><span class="prefix">//</span> Currently Building</h2>
-      <div class="project reveal" style="transition-delay: 0ms">
-        <div class="window-chrome"><span></span><span></span><span></span></div>
-        <h3>
-          <span class="prefix">&gt;</span> MCP Servers — Workflow Automation
-        </h3>
-        <p>
-          Production Model Context Protocol servers for automating knowledge
-          work, including Gmail API integration, task workflows, and document
-          processing.
-        </p>
-      </div>
-      <div class="project reveal" style="transition-delay: 80ms">
-        <div class="window-chrome"><span></span><span></span><span></span></div>
-        <h3>
-          <span class="prefix">&gt;</span> Cursor Memory System — Developer Tooling
-        </h3>
-        <p>
-          A persistent memory architecture for AI-assisted development workflows
-          focused on better context retrieval and long-term project awareness.
-        </p>
-      </div>
-    </section>
-
-    <section id="background">
-      <h2><span class="prefix">//</span> Background</h2>
-      <ul class="background-list">
-        <li class="reveal" style="transition-delay: 0ms">
-          <span class="line-num">01</span>
-          <strong>Burning Man installations.</strong> Led teams building large-scale
-          art that burned.
-        </li>
-        <li class="reveal" style="transition-delay: 60ms">
-          <span class="line-num">02</span>
-          <strong>Off-grid infrastructure.</strong> Designed and managed complete
-          field power/water systems.
-        </li>
-        <li class="reveal" style="transition-delay: 120ms">
-          <span class="line-num">03</span>
-          <strong>National touring band.</strong> Self-booked and self-managed touring
-          logistics.
-        </li>
-        <li class="reveal" style="transition-delay: 180ms">
-          <span class="line-num">04</span>
-          <strong>Sushi chef.</strong> Self-taught, hired directly as chef, rapidly
-          reached top certification tier.
-        </li>
-        <li class="reveal" style="transition-delay: 240ms">
-          <span class="line-num">05</span>
-          <strong>Khan Academy math sprint.</strong> Seven years of curriculum in
-          six months.
-        </li>
-      </ul>
-    </section>
   </main>
 </BaseLayout>
 
@@ -340,46 +284,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .project a:hover {
     text-decoration-color: var(--accent);
-  }
-
-  /* ── Background list ── */
-  .background-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .line-num {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--accent-cyan);
-    opacity: 0.5;
-    margin-right: 14px;
-    user-select: none;
-  }
-
-  .background-list li {
-    color: var(--fg-muted);
-    padding: 4px 0 4px 0;
-    display: flex;
-    align-items: baseline;
-    border-left: 2px solid var(--border);
-    padding-left: 16px;
-    transition:
-      border-color 150ms ease,
-      opacity 0.4s ease,
-      transform 0.4s ease;
-  }
-
-  .background-list li:hover {
-    border-left-color: var(--accent-cyan);
-  }
-
-  .background-list li:hover .line-num {
-    opacity: 1;
   }
 
   @media (max-width: 860px) {

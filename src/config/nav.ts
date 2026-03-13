@@ -13,15 +13,30 @@ const icons = {
 } as const;
 
 export const navItems: NavItem[] = [
-  { href: "/", label: "Home", icon: icons.home, visible: true },
+  {
+    href: "/",
+    label: "Home",
+    icon: icons.home,
+    visible: true,
+  },
   {
     href: "/projects/",
     label: "Projects",
     icon: icons.projects,
+    visible: false,
+  },
+  {
+    href: "/art/",
+    label: "Art",
+    icon: icons.art,
     visible: true,
   },
-  { href: "/art/", label: "Art", icon: icons.art, visible: true },
-  { href: "/blog/", label: "Blog", icon: icons.blog, visible: true },
+  {
+    href: "/blog/",
+    label: "Blog",
+    icon: icons.blog,
+    visible: false,
+  },
 ];
 
 export const visibleNavItems = navItems.filter((item) => item.visible);
